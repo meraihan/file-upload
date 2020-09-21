@@ -2,7 +2,7 @@ package com.rupali.bank.fileupload.controller;
 
 import com.rupali.bank.fileupload.helper.FileHelper;
 import com.rupali.bank.fileupload.message.ResponseMessage;
-import com.rupali.bank.fileupload.model.Tutorial;
+import com.rupali.bank.fileupload.model.FileUpload;
 import com.rupali.bank.fileupload.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@CrossOrigin("http://localhost:8081")
+@CrossOrigin("http://localhost:8080")
 @Controller
 @RequestMapping("/api/excel")
 public class FileController {
@@ -41,15 +41,15 @@ public class FileController {
     }
 
     @GetMapping("/tutorials")
-    public ResponseEntity<List<Tutorial>> getAllTutorials() {
+    public ResponseEntity<List<FileUpload>> getAllTutorials() {
         try {
-            List<Tutorial> tutorials = fileService.getAllTutorials();
+            List<FileUpload> fileUploads = fileService.getAllTutorials();
 
-            if (tutorials.isEmpty()) {
+            if (fileUploads.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            return new ResponseEntity<>(tutorials, HttpStatus.OK);
+            return new ResponseEntity<>(fileUploads, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

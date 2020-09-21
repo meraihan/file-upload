@@ -1,6 +1,6 @@
 package com.rupali.bank.fileupload.helper;
 
-import com.rupali.bank.fileupload.model.Tutorial;
+import com.rupali.bank.fileupload.model.FileUpload;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -28,14 +28,14 @@ public class FileHelper {
         return true;
     }
 
-    public static List<Tutorial> excelToTutorials(InputStream is) {
+    public static List<FileUpload> excelToTutorials(InputStream is) {
         try {
             Workbook workbook = new XSSFWorkbook(is);
 
             Sheet sheet = workbook.getSheet(SHEET);
             Iterator<Row> rows = sheet.iterator();
 
-            List<Tutorial> tutorials = new ArrayList<Tutorial>();
+            List<FileUpload> fileUploads = new ArrayList<FileUpload>();
 
             int rowNumber = 0;
             while (rows.hasNext()) {
@@ -49,7 +49,7 @@ public class FileHelper {
 
                 Iterator<Cell> cellsInRow = currentRow.iterator();
 
-                Tutorial tutorial = new Tutorial();
+                FileUpload fileUpload = new FileUpload();
 
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
@@ -57,19 +57,19 @@ public class FileHelper {
 
                     switch (cellIdx) {
                         case 0:
-                            tutorial.setId((long) currentCell.getNumericCellValue());
+                            fileUpload.setId((long) currentCell.getNumericCellValue());
                             break;
 
                         case 1:
-                            tutorial.setTitle(currentCell.getStringCellValue());
+                            fileUpload.setTitle(currentCell.getStringCellValue());
                             break;
 
                         case 2:
-                            tutorial.setDescription(currentCell.getStringCellValue());
+                            fileUpload.setDescription(currentCell.getStringCellValue());
                             break;
 
                         case 3:
-                            tutorial.setPublished(currentCell.getBooleanCellValue());
+                            fileUpload.setPublished(currentCell.getBooleanCellValue());
                             break;
 
                         default:
@@ -79,12 +79,12 @@ public class FileHelper {
                     cellIdx++;
                 }
 
-                tutorials.add(tutorial);
+                fileUploads.add(fileUpload);
             }
 
             workbook.close();
 
-            return tutorials;
+            return fileUploads;
         } catch (IOException e) {
             throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
         }
